@@ -1,0 +1,192 @@
+C:\proyectos\proyectos09\SKYNNET\SW2\pruebas_masivas>py MLP_caltech_adam_split02.py 1
+**************************************
+*     MASSIVE MLP                    *
+*   programa de test                 *
+*                                    *
+* usage:                             *
+* py massive_MLP.py <RF>             *
+*    RF: reduction factor to N/RF    *
+* input params:                      *
+*    - RF 1.0
+*                                    *
+**************************************
+2024-02-02 13:21:36.583045: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'cudnn64_8.dll'; dlerror: cudnn64_8.dll not found
+2024-02-02 13:21:36.598112: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1934] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2024-02-02 13:21:36.631311: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX AVX2
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+informative features
+--------------------
+  class names: ['accordion', 'airplanes', 'anchor', 'ant', 'background_google', 'barrel', 'bass', 'beaver', 'binocular', 'bonsai', 'brain', 'brontosaurus', 'buddha', 'butterfly', 'camera', 'cannon', 'car_side', 'ceiling_fan', 'cellphone', 'chair', 'chandelier', 'cougar_body', 'cougar_face', 'crab', 'crayfish', 'crocodile', 'crocodile_head', 'cup', 'dalmatian', 'dollar_bill', 'dolphin', 'dragonfly', 'electric_guitar', 'elephant', 'emu', 'euphonium', 'ewer', 'faces', 'faces_easy', 'ferry', 'flamingo', 'flamingo_head', 'garfield', 'gerenuk', 'gramophone', 'grand_piano', 'hawksbill', 'headphone', 'hedgehog', 'helicopter', 'ibis', 'inline_skate', 'joshua_tree', 'kangaroo', 'ketch', 'lamp', 'laptop', 'leopards', 'llama', 'lobster', 'lotus', 'mandolin', 'mayfly', 'menorah', 'metronome', 'minaret', 'motorbikes', 'nautilus', 'octopus', 'okapi', 'pagoda', 'panda', 'pigeon', 'pizza', 'platypus', 'pyramid', 'revolver', 'rhino', 'rooster', 'saxophone', 'schooner', 'scissors', 'scorpion', 'sea_horse', 'snoopy', 'soccer_ball', 'stapler', 'starfish', 'stegosaurus', 'stop_sign', 'strawberry', 'sunflower', 'tick', 'trilobite', 'umbrella', 'watch', 'water_lilly', 'wheelchair', 'wild_cat', 'windsor_chair', 'wrench', 'yin_yang']
+  num clases: 102
+
+datasets sizes. IF batch_size is used THEN this is the number of batches
+-------------------------------------------------------------------------
+  Train set size:  9144  batches of  1  elements
+
+ds_train contents ( caltech101 )
+--------------------------------
+<PrefetchDataset element_spec=(TensorSpec(shape=(None, None, 3), dtype=tf.uint8, name=None), TensorSpec(shape=(), dtype=tf.int64, name=None))>
+
+dataset to numpy conversion ( caltech101 )
+------------------------------------------
+  convirtiendo DS en arrays numpy...( caltech101 )
+C:\proyectos\proyectos09\SKYNNET\SW2\pruebas_masivas\MLP_caltech_adam_split02.py:256: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  x_train = np.array(list(map(lambda x: x[0], ds_train_npy)))
+  conversion OK
+   x_train numpy shape: (9144,)
+   y_train numpy shape: (9144,)
+
+
+deconstruccion
+----------------
+ n_clases:  102    reduction to  102
+ NUM MAQUINAS float= 1.0
+ NUM MAQUINAS= 1
+
+Filter data (deconstruction)
+---------------------------
+  number of examples:
+   x_train: (9144,)
+   y_train: (9144,)
+
+Aadaptando imagenes...( caltech101 )
+------------------------------------
+ds_name= caltech101 --> h2= 128 w2= 128
+
+channels:  3
+ nuevo array: samples: 9144  h2= 128  w2= 128  channels2= 3
+
+Normalizando... caltech101
+-------------------------
+array A --> dtype= float32
+array train --> dtype= uint8
+datos cargados en arrays
+OPTIMIZER= adam
+---------------------------
+Model: "sequential"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ flatten (Flatten)           (None, 49152)             0
+
+ dense (Dense)               (None, 816)               40108848
+
+ dense_1 (Dense)             (None, 408)               333336
+
+ dense_2 (Dense)             (None, 204)               83436
+
+ dense_3 (Dense)             (None, 102)               20910
+
+=================================================================
+Total params: 40,546,530
+Trainable params: 40,546,530
+Non-trainable params: 0
+_________________________________________________________________
+None
+
+DS: caltech101  n_clases:  102 factor= 1.0  reduction to  102  categories using  1  machines
+
+epocas finales: 50 , split = 0.2 batch= 32
+
+Epoch 1/50
+229/229 [==============================] - 100s 419ms/step - loss: 4.9380 - accuracy: 0.2086 - val_loss: 2.9507 - val_accuracy: 0.3614
+Epoch 2/50
+229/229 [==============================] - 96s 420ms/step - loss: 3.4679 - accuracy: 0.2655 - val_loss: 2.6216 - val_accuracy: 0.4204
+Epoch 3/50
+229/229 [==============================] - 82s 359ms/step - loss: 3.2239 - accuracy: 0.2982 - val_loss: 2.4916 - val_accuracy: 0.4336
+Epoch 4/50
+229/229 [==============================] - 79s 346ms/step - loss: 3.0553 - accuracy: 0.3154 - val_loss: 2.5901 - val_accuracy: 0.4330
+Epoch 5/50
+229/229 [==============================] - 77s 336ms/step - loss: 2.9537 - accuracy: 0.3273 - val_loss: 2.3787 - val_accuracy: 0.4625
+Epoch 6/50
+229/229 [==============================] - 4376s 19s/step - loss: 2.8448 - accuracy: 0.3441 - val_loss: 2.3132 - val_accuracy: 0.4822
+Epoch 7/50
+229/229 [==============================] - 124s 541ms/step - loss: 2.7251 - accuracy: 0.3640 - val_loss: 2.3030 - val_accuracy: 0.4839
+Epoch 8/50
+229/229 [==============================] - 125s 547ms/step - loss: 2.6366 - accuracy: 0.3785 - val_loss: 2.2697 - val_accuracy: 0.4959
+Epoch 9/50
+229/229 [==============================] - 124s 540ms/step - loss: 2.5432 - accuracy: 0.3947 - val_loss: 2.3350 - val_accuracy: 0.4861
+Epoch 10/50
+229/229 [==============================] - 116s 508ms/step - loss: 2.4932 - accuracy: 0.4008 - val_loss: 2.1765 - val_accuracy: 0.5030
+Epoch 11/50
+229/229 [==============================] - 112s 490ms/step - loss: 2.4082 - accuracy: 0.4113 - val_loss: 2.1981 - val_accuracy: 0.5041
+Epoch 12/50
+229/229 [==============================] - 122s 534ms/step - loss: 2.3424 - accuracy: 0.4246 - val_loss: 2.2554 - val_accuracy: 0.5030
+Epoch 13/50
+229/229 [==============================] - 116s 504ms/step - loss: 2.2920 - accuracy: 0.4338 - val_loss: 2.1329 - val_accuracy: 0.5128
+Epoch 14/50
+229/229 [==============================] - 112s 488ms/step - loss: 2.1895 - accuracy: 0.4541 - val_loss: 2.2777 - val_accuracy: 0.5249
+Epoch 15/50
+229/229 [==============================] - 111s 483ms/step - loss: 2.1348 - accuracy: 0.4664 - val_loss: 2.2012 - val_accuracy: 0.5101
+Epoch 16/50
+229/229 [==============================] - 73s 318ms/step - loss: 2.0489 - accuracy: 0.4796 - val_loss: 2.3817 - val_accuracy: 0.5041
+Epoch 17/50
+229/229 [==============================] - 55s 242ms/step - loss: 2.0080 - accuracy: 0.4901 - val_loss: 2.2421 - val_accuracy: 0.5221
+Epoch 18/50
+229/229 [==============================] - 53s 231ms/step - loss: 1.9474 - accuracy: 0.5066 - val_loss: 2.2822 - val_accuracy: 0.5172
+Epoch 19/50
+229/229 [==============================] - 52s 225ms/step - loss: 1.8859 - accuracy: 0.5148 - val_loss: 2.2639 - val_accuracy: 0.5276
+Epoch 20/50
+229/229 [==============================] - 51s 224ms/step - loss: 1.7921 - accuracy: 0.5348 - val_loss: 2.4323 - val_accuracy: 0.5183
+Epoch 21/50
+229/229 [==============================] - 52s 225ms/step - loss: 1.7894 - accuracy: 0.5427 - val_loss: 2.3688 - val_accuracy: 0.5309
+Epoch 22/50
+229/229 [==============================] - 50s 220ms/step - loss: 1.7066 - accuracy: 0.5560 - val_loss: 2.4715 - val_accuracy: 0.4954
+Epoch 23/50
+229/229 [==============================] - 52s 226ms/step - loss: 1.6653 - accuracy: 0.5675 - val_loss: 2.4394 - val_accuracy: 0.5342
+Epoch 24/50
+229/229 [==============================] - 52s 225ms/step - loss: 1.5835 - accuracy: 0.5806 - val_loss: 2.5037 - val_accuracy: 0.5369
+Epoch 25/50
+229/229 [==============================] - 51s 224ms/step - loss: 1.5344 - accuracy: 0.5954 - val_loss: 2.5463 - val_accuracy: 0.5314
+Epoch 26/50
+229/229 [==============================] - 51s 224ms/step - loss: 1.5037 - accuracy: 0.5973 - val_loss: 2.7315 - val_accuracy: 0.5200
+Epoch 27/50
+229/229 [==============================] - 51s 222ms/step - loss: 1.4243 - accuracy: 0.6180 - val_loss: 2.8773 - val_accuracy: 0.5402
+Epoch 28/50
+229/229 [==============================] - 51s 224ms/step - loss: 1.3806 - accuracy: 0.6293 - val_loss: 2.7622 - val_accuracy: 0.5112
+Epoch 29/50
+229/229 [==============================] - 51s 222ms/step - loss: 1.3100 - accuracy: 0.6477 - val_loss: 2.8329 - val_accuracy: 0.5380
+Epoch 30/50
+229/229 [==============================] - 52s 225ms/step - loss: 1.2954 - accuracy: 0.6495 - val_loss: 2.7405 - val_accuracy: 0.5413
+Epoch 31/50
+229/229 [==============================] - 52s 229ms/step - loss: 1.2594 - accuracy: 0.6608 - val_loss: 2.9459 - val_accuracy: 0.5003
+Epoch 32/50
+229/229 [==============================] - 52s 225ms/step - loss: 1.2539 - accuracy: 0.6559 - val_loss: 3.2305 - val_accuracy: 0.5254
+Epoch 33/50
+229/229 [==============================] - 56s 245ms/step - loss: 1.1861 - accuracy: 0.6756 - val_loss: 2.9810 - val_accuracy: 0.5260
+Epoch 34/50
+229/229 [==============================] - 50s 218ms/step - loss: 1.1431 - accuracy: 0.6872 - val_loss: 3.1097 - val_accuracy: 0.5260
+Epoch 35/50
+229/229 [==============================] - 53s 231ms/step - loss: 1.0722 - accuracy: 0.7066 - val_loss: 3.5456 - val_accuracy: 0.5232
+Epoch 36/50
+229/229 [==============================] - 83s 362ms/step - loss: 1.0690 - accuracy: 0.7027 - val_loss: 3.3860 - val_accuracy: 0.5402
+Epoch 37/50
+229/229 [==============================] - 78s 341ms/step - loss: 0.9763 - accuracy: 0.7270 - val_loss: 3.3906 - val_accuracy: 0.5418
+Epoch 38/50
+229/229 [==============================] - 78s 341ms/step - loss: 0.9469 - accuracy: 0.7347 - val_loss: 3.5354 - val_accuracy: 0.5375
+Epoch 39/50
+229/229 [==============================] - 77s 336ms/step - loss: 1.0039 - accuracy: 0.7198 - val_loss: 3.7104 - val_accuracy: 0.5282
+Epoch 40/50
+229/229 [==============================] - 78s 341ms/step - loss: 0.9387 - accuracy: 0.7374 - val_loss: 3.5502 - val_accuracy: 0.5385
+Epoch 41/50
+229/229 [==============================] - 73s 318ms/step - loss: 0.9879 - accuracy: 0.7247 - val_loss: 3.6844 - val_accuracy: 0.5303
+Epoch 42/50
+229/229 [==============================] - 79s 344ms/step - loss: 0.8470 - accuracy: 0.7647 - val_loss: 3.9740 - val_accuracy: 0.5145
+Epoch 43/50
+229/229 [==============================] - 76s 331ms/step - loss: 0.8214 - accuracy: 0.7642 - val_loss: 3.9983 - val_accuracy: 0.5358
+Epoch 44/50
+229/229 [==============================] - 73s 321ms/step - loss: 0.9139 - accuracy: 0.7431 - val_loss: 3.9545 - val_accuracy: 0.5150
+Epoch 45/50
+229/229 [==============================] - 67s 294ms/step - loss: 0.8068 - accuracy: 0.7703 - val_loss: 3.9068 - val_accuracy: 0.5407
+Epoch 46/50
+229/229 [==============================] - 73s 317ms/step - loss: 0.8161 - accuracy: 0.7683 - val_loss: 4.3317 - val_accuracy: 0.5380
+Epoch 47/50
+229/229 [==============================] - 78s 342ms/step - loss: 0.8259 - accuracy: 0.7699 - val_loss: 4.2999 - val_accuracy: 0.5172
+Epoch 48/50
+229/229 [==============================] - 70s 307ms/step - loss: 0.7531 - accuracy: 0.7888 - val_loss: 4.4521 - val_accuracy: 0.5396
+Epoch 49/50
+229/229 [==============================] - 70s 307ms/step - loss: 0.7513 - accuracy: 0.7844 - val_loss: 4.7735 - val_accuracy: 0.5139
+Epoch 50/50
+229/229 [==============================] - 69s 300ms/step - loss: 0.7278 - accuracy: 0.7900 - val_loss: 5.0595 - val_accuracy: 0.5227
+ tiempo transcurrido (segundos) = 8055.928257703781
