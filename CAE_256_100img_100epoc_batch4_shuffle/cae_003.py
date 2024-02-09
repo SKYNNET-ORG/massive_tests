@@ -30,11 +30,11 @@ batch_size = 4# #16#4 #4 #5 #8 # original era 2 (50imgs=5*10)
 
 resolution=256
 total_images=int(100/(F*F)) # numero total de imagenes con las que queremos entrenar
-total_images=100
+total_images=100 #100 25600
 #ojo si no es dibisible entre batch_size, seran mas imagenes que las que digamos.
 myshufle=True
 my_split=0.2
-epochs = 100 #500  #400 #45
+epochs = int(100/F) #500  #400 #45
 print ("TOTAL images=", total_images)
 m=total_images #*F*F
 #=======================================================
@@ -95,7 +95,7 @@ else:
     #y_train=np.zeros(F*F*x_train.shape[0]*porcion*porcion*x_train.shape[3])
     #y_train.shape=(F*F*x_train.shape[0],porcion,porcion,x_train.shape[3])
     #mmax=int(total_images*F)
-    mmax=int(total_images)
+    mmax=int(total_images*F*F)
     y_train=np.zeros(mmax*porcion*porcion*x_train.shape[3])
     y_train.shape=(mmax,porcion,porcion,x_train.shape[3])
     
@@ -132,8 +132,8 @@ else:
                 # si cogemos todas las porciones, tendremos un loss medio
                 # con F=4, de las 100 imagenes, en realidad solo estaremos entrenando con 25
                 # ya que cada imagen contiene 4 porciones. esto daña la loss
-                yini=(F//2)*porcion
-                xini=(F//2)*porcion
+                #yini=(F//2)*porcion
+                #xini=(F//2)*porcion
                 
                 y_train[m]=x_train[i:i+1,yini:yini+porcion,xini:xini+porcion]
                 m=m+1 
@@ -229,7 +229,7 @@ print("  >epocas= ", epochs)
 print("  >split=", my_split)
 print("  >y shape =", y_train.shape)
 print("  >codigo: ", encoded.shape)
-print("total images=",m)
+print("  >total portions=",m)
 print("-------------------")
 
 optimizer = tf.keras.optimizers.Adam() #lr=lr)
@@ -293,7 +293,7 @@ print("  >epocas= ", epochs)
 print("  >split=", my_split)
 print("  >y shape =", y_train.shape)
 print("  >codigo: ", encoded.shape)
-print("total images=",m)
+print("  >total portions=",m)
 print("-------------------")
 plt.show();
 
