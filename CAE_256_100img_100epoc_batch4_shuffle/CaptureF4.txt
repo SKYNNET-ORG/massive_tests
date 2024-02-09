@@ -1,0 +1,148 @@
+C:\proyectos\proyectos09\SKYNNET\SW2\pruebas_masivas\_CAE>py cae_003.py 4
+TOTAL images= 100
+Found 500 images belonging to 1 classes.
+num_steps: 125
+(100, 256, 256, 3)
+alto= 256
+porcion: 64
+el verdadero F es :  16.0
+y shape = (1600, 64, 64, 3)
+porciones= 4.0
+total images= 1600
+2024-02-09 11:43:52.158113: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'cudnn64_8.dll'; dlerror: cudnn64_8.dll not found
+2024-02-09 11:43:52.158418: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1934] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2024-02-09 11:43:52.160765: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX AVX2
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+CODIGO: (None, 4, 4, 64)
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ input_1 (InputLayer)        [(None, 64, 64, 3)]       0
+
+ conv2d (Conv2D)             (None, 64, 64, 512)       14336
+
+ max_pooling2d (MaxPooling2D  (None, 32, 32, 512)      0
+ )
+
+ conv2d_1 (Conv2D)           (None, 32, 32, 256)       1179904
+
+ max_pooling2d_1 (MaxPooling  (None, 16, 16, 256)      0
+ 2D)
+
+ conv2d_2 (Conv2D)           (None, 16, 16, 128)       295040
+
+ max_pooling2d_2 (MaxPooling  (None, 8, 8, 128)        0
+ 2D)
+
+ conv2d_3 (Conv2D)           (None, 8, 8, 64)          73792
+
+ max_pooling2d_3 (MaxPooling  (None, 4, 4, 64)         0
+ 2D)
+
+ conv2d_4 (Conv2D)           (None, 4, 4, 64)          36928
+
+ up_sampling2d (UpSampling2D  (None, 8, 8, 64)         0
+ )
+
+ conv2d_5 (Conv2D)           (None, 8, 8, 128)         73856
+
+ up_sampling2d_1 (UpSampling  (None, 16, 16, 128)      0
+ 2D)
+
+ conv2d_6 (Conv2D)           (None, 16, 16, 256)       295168
+
+ up_sampling2d_2 (UpSampling  (None, 32, 32, 256)      0
+ 2D)
+
+ conv2d_7 (Conv2D)           (None, 32, 32, 512)       1180160
+
+ up_sampling2d_3 (UpSampling  (None, 64, 64, 512)      0
+ 2D)
+
+ conv2d_8 (Conv2D)           (None, 64, 64, 3)         13827
+
+=================================================================
+Total params: 3,163,011
+Trainable params: 3,163,011
+Non-trainable params: 0
+_________________________________________________________________
+None
+
+-------------------
+  >FACTOR:  4
+  >resolucion:  256
+  >batch_size= 4
+  >batches= 25
+  >total images: 100
+  >shuffle=  True
+  >epocas=  25
+  >split= 0.2
+  >y shape = (1600, 64, 64, 3)
+  >codigo:  (None, 4, 4, 64)
+  >total portions= 1600
+-------------------
+Epoch 1/25
+320/320 [==============================] - 306s 953ms/step - loss: 0.0416 - val_loss: 0.0250
+Epoch 2/25
+320/320 [==============================] - 11783s 37s/step - loss: 0.0217 - val_loss: 0.0272
+Epoch 3/25
+320/320 [==============================] - 279s 873ms/step - loss: 0.0200 - val_loss: 0.0206
+Epoch 4/25
+320/320 [==============================] - 274s 856ms/step - loss: 0.0176 - val_loss: 0.0218
+Epoch 5/25
+320/320 [==============================] - 279s 872ms/step - loss: 0.0168 - val_loss: 0.0202
+Epoch 6/25
+320/320 [==============================] - 276s 863ms/step - loss: 0.0164 - val_loss: 0.0207
+Epoch 7/25
+320/320 [==============================] - 278s 870ms/step - loss: 0.0173 - val_loss: 0.0202
+Epoch 8/25
+320/320 [==============================] - 276s 861ms/step - loss: 0.0150 - val_loss: 0.0176
+Epoch 9/25
+320/320 [==============================] - 275s 859ms/step - loss: 0.0130 - val_loss: 0.0165
+Epoch 10/25
+320/320 [==============================] - 319s 996ms/step - loss: 0.0127 - val_loss: 0.0148
+Epoch 11/25
+320/320 [==============================] - 319s 998ms/step - loss: 0.0120 - val_loss: 0.0146
+Epoch 12/25
+320/320 [==============================] - 303s 946ms/step - loss: 0.0121 - val_loss: 0.0171
+Epoch 13/25
+320/320 [==============================] - 287s 896ms/step - loss: 0.0114 - val_loss: 0.0144
+Epoch 14/25
+320/320 [==============================] - 277s 865ms/step - loss: 0.0120 - val_loss: 0.0137
+Epoch 15/25
+320/320 [==============================] - 282s 883ms/step - loss: 0.0108 - val_loss: 0.0150
+Epoch 16/25
+320/320 [==============================] - 265s 827ms/step - loss: 0.0103 - val_loss: 0.0132
+Epoch 17/25
+320/320 [==============================] - 264s 825ms/step - loss: 0.0108 - val_loss: 0.0153
+Epoch 18/25
+320/320 [==============================] - 268s 838ms/step - loss: 0.0103 - val_loss: 0.0128
+Epoch 19/25
+320/320 [==============================] - 299s 935ms/step - loss: 0.0104 - val_loss: 0.0131
+Epoch 20/25
+320/320 [==============================] - 340s 1s/step - loss: 0.0111 - val_loss: 0.0165
+Epoch 21/25
+320/320 [==============================] - 307s 960ms/step - loss: 0.0106 - val_loss: 0.0129
+Epoch 22/25
+320/320 [==============================] - 317s 990ms/step - loss: 0.0095 - val_loss: 0.0120
+Epoch 23/25
+320/320 [==============================] - 298s 930ms/step - loss: 0.0092 - val_loss: 0.0126
+Epoch 24/25
+320/320 [==============================] - 332s 1s/step - loss: 0.0095 - val_loss: 0.0131
+Epoch 25/25
+320/320 [==============================] - 324s 1s/step - loss: 0.0117 - val_loss: 0.0137
+-------SUMMARY ------------
+  >FACTOR:  4
+  >resolucion:  256
+  >batch_size= 4
+  >batches= 25
+  >total images: 100
+  >shuffle=  True
+  >epocas=  25
+  >split= 0.2
+  >y shape = (1600, 64, 64, 3)
+  >codigo:  (None, 4, 4, 64)
+  >total portions= 1600
+-------------------

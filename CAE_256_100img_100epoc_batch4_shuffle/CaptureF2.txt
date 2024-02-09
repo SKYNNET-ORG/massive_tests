@@ -1,0 +1,198 @@
+C:\proyectos\proyectos09\SKYNNET\SW2\pruebas_masivas\_CAE>py cae_003.py 2
+TOTAL images= 100
+Found 500 images belonging to 1 classes.
+num_steps: 125
+(100, 256, 256, 3)
+alto= 256
+porcion: 128
+el verdadero F es :  4.0
+y shape = (400, 128, 128, 3)
+porciones= 2.0
+total images= 400
+2024-02-09 11:49:16.347595: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'cudnn64_8.dll'; dlerror: cudnn64_8.dll not found
+2024-02-09 11:49:16.347969: W tensorflow/core/common_runtime/gpu/gpu_device.cc:1934] Cannot dlopen some GPU libraries. Please make sure the missing libraries mentioned above are installed properly if you would like to use GPU. Follow the guide at https://www.tensorflow.org/install/gpu for how to download and setup the required libraries for your platform.
+Skipping registering GPU devices...
+2024-02-09 11:49:16.351417: I tensorflow/core/platform/cpu_feature_guard.cc:193] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX AVX2
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+CODIGO: (None, 8, 8, 64)
+Model: "model"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ input_1 (InputLayer)        [(None, 128, 128, 3)]     0
+
+ conv2d (Conv2D)             (None, 128, 128, 512)     14336
+
+ max_pooling2d (MaxPooling2D  (None, 64, 64, 512)      0
+ )
+
+ conv2d_1 (Conv2D)           (None, 64, 64, 256)       1179904
+
+ max_pooling2d_1 (MaxPooling  (None, 32, 32, 256)      0
+ 2D)
+
+ conv2d_2 (Conv2D)           (None, 32, 32, 128)       295040
+
+ max_pooling2d_2 (MaxPooling  (None, 16, 16, 128)      0
+ 2D)
+
+ conv2d_3 (Conv2D)           (None, 16, 16, 64)        73792
+
+ max_pooling2d_3 (MaxPooling  (None, 8, 8, 64)         0
+ 2D)
+
+ conv2d_4 (Conv2D)           (None, 8, 8, 64)          36928
+
+ up_sampling2d (UpSampling2D  (None, 16, 16, 64)       0
+ )
+
+ conv2d_5 (Conv2D)           (None, 16, 16, 128)       73856
+
+ up_sampling2d_1 (UpSampling  (None, 32, 32, 128)      0
+ 2D)
+
+ conv2d_6 (Conv2D)           (None, 32, 32, 256)       295168
+
+ up_sampling2d_2 (UpSampling  (None, 64, 64, 256)      0
+ 2D)
+
+ conv2d_7 (Conv2D)           (None, 64, 64, 512)       1180160
+
+ up_sampling2d_3 (UpSampling  (None, 128, 128, 512)    0
+ 2D)
+
+ conv2d_8 (Conv2D)           (None, 128, 128, 3)       13827
+
+=================================================================
+Total params: 3,163,011
+Trainable params: 3,163,011
+Non-trainable params: 0
+_________________________________________________________________
+None
+
+-------------------
+  >FACTOR:  2
+  >resolucion:  256
+  >batch_size= 4
+  >batches= 25
+  >total images: 100
+  >shuffle=  True
+  >epocas=  50
+  >split= 0.2
+  >y shape = (400, 128, 128, 3)
+  >codigo:  (None, 8, 8, 64)
+  >total portions= 400
+-------------------
+Epoch 1/50
+80/80 [==============================] - 323s 4s/step - loss: 0.0625 - val_loss: 0.0395
+Epoch 2/50
+80/80 [==============================] - 298s 4s/step - loss: 0.0311 - val_loss: 0.0204
+Epoch 3/50
+80/80 [==============================] - 299s 4s/step - loss: 0.0226 - val_loss: 0.0183
+Epoch 4/50
+80/80 [==============================] - 302s 4s/step - loss: 0.0200 - val_loss: 0.0167
+Epoch 5/50
+80/80 [==============================] - 17659s 223s/step - loss: 0.0184 - val_loss: 0.0147
+Epoch 6/50
+80/80 [==============================] - 293s 4s/step - loss: 0.0184 - val_loss: 0.0207
+Epoch 7/50
+80/80 [==============================] - 298s 4s/step - loss: 0.0190 - val_loss: 0.0160
+Epoch 8/50
+80/80 [==============================] - 273s 3s/step - loss: 0.0168 - val_loss: 0.0151
+Epoch 9/50
+80/80 [==============================] - 268s 3s/step - loss: 0.0174 - val_loss: 0.0149
+Epoch 10/50
+80/80 [==============================] - 259s 3s/step - loss: 0.0162 - val_loss: 0.0128
+Epoch 11/50
+80/80 [==============================] - 262s 3s/step - loss: 0.0149 - val_loss: 0.0150
+Epoch 12/50
+80/80 [==============================] - 256s 3s/step - loss: 0.0158 - val_loss: 0.0136
+Epoch 13/50
+80/80 [==============================] - 260s 3s/step - loss: 0.0133 - val_loss: 0.0130
+Epoch 14/50
+80/80 [==============================] - 244s 3s/step - loss: 0.0138 - val_loss: 0.0128
+Epoch 15/50
+80/80 [==============================] - 249s 3s/step - loss: 0.0119 - val_loss: 0.0114
+Epoch 16/50
+80/80 [==============================] - 253s 3s/step - loss: 0.0122 - val_loss: 0.0119
+Epoch 17/50
+80/80 [==============================] - 247s 3s/step - loss: 0.0115 - val_loss: 0.0124
+Epoch 18/50
+80/80 [==============================] - 248s 3s/step - loss: 0.0111 - val_loss: 0.0107
+Epoch 19/50
+80/80 [==============================] - 247s 3s/step - loss: 0.0111 - val_loss: 0.0147
+Epoch 20/50
+80/80 [==============================] - 252s 3s/step - loss: 0.0118 - val_loss: 0.0121
+Epoch 21/50
+80/80 [==============================] - 245s 3s/step - loss: 0.0112 - val_loss: 0.0114
+Epoch 22/50
+80/80 [==============================] - 247s 3s/step - loss: 0.0103 - val_loss: 0.0106
+Epoch 23/50
+80/80 [==============================] - 247s 3s/step - loss: 0.0111 - val_loss: 0.0132
+Epoch 24/50
+80/80 [==============================] - 244s 3s/step - loss: 0.0114 - val_loss: 0.0155
+Epoch 25/50
+80/80 [==============================] - 262s 3s/step - loss: 0.0107 - val_loss: 0.0104
+Epoch 26/50
+80/80 [==============================] - 274s 3s/step - loss: 0.0095 - val_loss: 0.0108
+Epoch 27/50
+80/80 [==============================] - 249s 3s/step - loss: 0.0107 - val_loss: 0.0113
+Epoch 28/50
+80/80 [==============================] - 252s 3s/step - loss: 0.0093 - val_loss: 0.0100
+Epoch 29/50
+80/80 [==============================] - 283s 4s/step - loss: 0.0097 - val_loss: 0.0108
+Epoch 30/50
+80/80 [==============================] - 271s 3s/step - loss: 0.0092 - val_loss: 0.0101
+Epoch 31/50
+80/80 [==============================] - 258s 3s/step - loss: 0.0089 - val_loss: 0.0101
+Epoch 32/50
+80/80 [==============================] - 257s 3s/step - loss: 0.0096 - val_loss: 0.0106
+Epoch 33/50
+80/80 [==============================] - 259s 3s/step - loss: 0.0092 - val_loss: 0.0115
+Epoch 34/50
+80/80 [==============================] - 246s 3s/step - loss: 0.0093 - val_loss: 0.0106
+Epoch 35/50
+80/80 [==============================] - 242s 3s/step - loss: 0.0096 - val_loss: 0.0108
+Epoch 36/50
+80/80 [==============================] - 249s 3s/step - loss: 0.0098 - val_loss: 0.0114
+Epoch 37/50
+80/80 [==============================] - 284s 4s/step - loss: 0.0097 - val_loss: 0.0103
+Epoch 38/50
+80/80 [==============================] - 284s 4s/step - loss: 0.0094 - val_loss: 0.0157
+Epoch 39/50
+80/80 [==============================] - 310s 4s/step - loss: 0.0099 - val_loss: 0.0107
+Epoch 40/50
+80/80 [==============================] - 268s 3s/step - loss: 0.0085 - val_loss: 0.0104
+Epoch 41/50
+80/80 [==============================] - 267s 3s/step - loss: 0.0090 - val_loss: 0.0101
+Epoch 42/50
+80/80 [==============================] - 272s 3s/step - loss: 0.0084 - val_loss: 0.0096
+Epoch 43/50
+80/80 [==============================] - 261s 3s/step - loss: 0.0082 - val_loss: 0.0100
+Epoch 44/50
+80/80 [==============================] - 249s 3s/step - loss: 0.0085 - val_loss: 0.0113
+Epoch 45/50
+80/80 [==============================] - 249s 3s/step - loss: 0.0089 - val_loss: 0.0113
+Epoch 46/50
+80/80 [==============================] - 245s 3s/step - loss: 0.0102 - val_loss: 0.0100
+Epoch 47/50
+80/80 [==============================] - 258s 3s/step - loss: 0.0086 - val_loss: 0.0112
+Epoch 48/50
+80/80 [==============================] - 248s 3s/step - loss: 0.0084 - val_loss: 0.0100
+Epoch 49/50
+80/80 [==============================] - 246s 3s/step - loss: 0.0078 - val_loss: 0.0096
+Epoch 50/50
+80/80 [==============================] - 248s 3s/step - loss: 0.0082 - val_loss: 0.0097
+-------SUMMARY ------------
+  >FACTOR:  2
+  >resolucion:  256
+  >batch_size= 4
+  >batches= 25
+  >total images: 100
+  >shuffle=  True
+  >epocas=  50
+  >split= 0.2
+  >y shape = (400, 128, 128, 3)
+  >codigo:  (None, 8, 8, 64)
+  >total portions= 400
+-------------------
