@@ -1,0 +1,281 @@
+C:\proyectos\proyectos09\SKYNNET\SW2\pruebas_masivas\_TRANSFORMER\vision-transformer>py VIT002.py 1 0
+**************************************
+* TEST OF VISION TRANSFORMER (VIT    *
+*   programa de test                 *
+*                                    *
+* usage:                             *
+* py massive_MLP.py <F> <G>          *
+*    F: reduction factor to n=N/F    *
+*    G: subnet id  [0..num machines] *
+*                                    *
+**************************************
+informative features
+--------------------
+  class names: ['accordion', 'airplanes', 'anchor', 'ant', 'background_google', 'barrel', 'bass', 'beaver', 'binocular', 'bonsai', 'brain', 'brontosaurus', 'buddha', 'butterfly', 'camera', 'cannon', 'car_side', 'ceiling_fan', 'cellphone', 'chair', 'chandelier', 'cougar_body', 'cougar_face', 'crab', 'crayfish', 'crocodile', 'crocodile_head', 'cup', 'dalmatian', 'dollar_bill', 'dolphin', 'dragonfly', 'electric_guitar', 'elephant', 'emu', 'euphonium', 'ewer', 'faces', 'faces_easy', 'ferry', 'flamingo', 'flamingo_head', 'garfield', 'gerenuk', 'gramophone', 'grand_piano', 'hawksbill', 'headphone', 'hedgehog', 'helicopter', 'ibis', 'inline_skate', 'joshua_tree', 'kangaroo', 'ketch', 'lamp', 'laptop', 'leopards', 'llama', 'lobster', 'lotus', 'mandolin', 'mayfly', 'menorah', 'metronome', 'minaret', 'motorbikes', 'nautilus', 'octopus', 'okapi', 'pagoda', 'panda', 'pigeon', 'pizza', 'platypus', 'pyramid', 'revolver', 'rhino', 'rooster', 'saxophone', 'schooner', 'scissors', 'scorpion', 'sea_horse', 'snoopy', 'soccer_ball', 'stapler', 'starfish', 'stegosaurus', 'stop_sign', 'strawberry', 'sunflower', 'tick', 'trilobite', 'umbrella', 'watch', 'water_lilly', 'wheelchair', 'wild_cat', 'windsor_chair', 'wrench', 'yin_yang']
+  num clases: 102
+
+datasets sizes. IF batch_size is used THEN this is the number of batches
+-------------------------------------------------------------------------
+  Train set size:  9144  batches of  1  elements
+
+ds_train contents ( caltech101 )
+--------------------------------
+<_PrefetchDataset element_spec=(TensorSpec(shape=(None, None, 3), dtype=tf.uint8, name=None), TensorSpec(shape=(), dtype=tf.int64, name=None))>
+
+dataset to numpy conversion ( caltech101 )
+------------------------------------------
+  convirtiendo DS en arrays numpy...( caltech101 )
+C:\proyectos\proyectos09\SKYNNET\SW2\pruebas_masivas\_TRANSFORMER\vision-transformer\VIT002.py:388: VisibleDeprecationWarning: Creating an ndarray from ragged nested sequences (which is a list-or-tuple of lists-or-tuples-or ndarrays with different lengths or shapes) is deprecated. If you meant to do this, you must specify 'dtype=object' when creating the ndarray.
+  x_train = np.array(list(map(lambda x: x[0], ds_train_npy)))
+  conversion OK
+   x_train numpy shape: (9144,)
+   y_train numpy shape: (9144,)
+
+
+deconstruccion
+----------------
+  n_clases:  102    reduction to  102
+  NUM MAQUINAS= 1
+
+Filtering data for deconstruction training...
+-----------------------------------------------
+  number of examples:
+   x_train: (9144,)
+   y_train: (9144,)
+
+Adaptando imagenes...( caltech101 )
+------------------------------------
+ds_name= caltech101 --> h2= 60 w2= 60
+
+channels:  3
+nuevo array: samples: 9144  h2= 60  w2= 60  channels2= 3
+
+Adaptando imagenes... ( caltech101 )
+
+Normalizando... caltech101
+-------------------------
+array A --> dtype= float32
+array train --> dtype= uint8
+datos cargados en arrays
+num patches=  36
+Model: "model"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to
+==================================================================================================
+ input_1 (InputLayer)           [(None, 60, 60, 3)]  0           []
+
+ data_augmentation (Sequential)  (None, 60, 60, 3)   0           ['input_1[0][0]']
+
+ patches (Patches)              (None, None, 300)    0           ['data_augmentation[0][0]']
+
+ patch_encoder (PatchEncoder)   (None, 36, 32)       10784       ['patches[0][0]']
+
+ layer_normalization (LayerNorm  (None, 36, 32)      64          ['patch_encoder[0][0]']
+ alization)
+
+ multi_head_attention (MultiHea  (None, 36, 32)      33568       ['layer_normalization[0][0]',
+ dAttention)                                                      'layer_normalization[0][0]']
+
+ add (Add)                      (None, 36, 32)       0           ['multi_head_attention[0][0]',
+                                                                  'patch_encoder[0][0]']
+
+ layer_normalization_1 (LayerNo  (None, 36, 32)      64          ['add[0][0]']
+ rmalization)
+
+ dense_1 (Dense)                (None, 36, 512)      16896       ['layer_normalization_1[0][0]']
+
+ dropout (Dropout)              (None, 36, 512)      0           ['dense_1[0][0]']
+
+ dense_2 (Dense)                (None, 36, 32)       16416       ['dropout[0][0]']
+
+ dropout_1 (Dropout)            (None, 36, 32)       0           ['dense_2[0][0]']
+
+ add_1 (Add)                    (None, 36, 32)       0           ['dropout_1[0][0]',
+                                                                  'add[0][0]']
+
+ layer_normalization_2 (LayerNo  (None, 36, 32)      64          ['add_1[0][0]']
+ rmalization)
+
+ multi_head_attention_1 (MultiH  (None, 36, 32)      33568       ['layer_normalization_2[0][0]',
+ eadAttention)                                                    'layer_normalization_2[0][0]']
+
+ add_2 (Add)                    (None, 36, 32)       0           ['multi_head_attention_1[0][0]',
+                                                                  'add_1[0][0]']
+
+ layer_normalization_3 (LayerNo  (None, 36, 32)      64          ['add_2[0][0]']
+ rmalization)
+
+ dense_3 (Dense)                (None, 36, 512)      16896       ['layer_normalization_3[0][0]']
+
+ dropout_2 (Dropout)            (None, 36, 512)      0           ['dense_3[0][0]']
+
+ dense_4 (Dense)                (None, 36, 32)       16416       ['dropout_2[0][0]']
+
+ dropout_3 (Dropout)            (None, 36, 32)       0           ['dense_4[0][0]']
+
+ add_3 (Add)                    (None, 36, 32)       0           ['dropout_3[0][0]',
+                                                                  'add_2[0][0]']
+
+ layer_normalization_4 (LayerNo  (None, 36, 32)      64          ['add_3[0][0]']
+ rmalization)
+
+ multi_head_attention_2 (MultiH  (None, 36, 32)      33568       ['layer_normalization_4[0][0]',
+ eadAttention)                                                    'layer_normalization_4[0][0]']
+
+ add_4 (Add)                    (None, 36, 32)       0           ['multi_head_attention_2[0][0]',
+                                                                  'add_3[0][0]']
+
+ layer_normalization_5 (LayerNo  (None, 36, 32)      64          ['add_4[0][0]']
+ rmalization)
+
+ dense_5 (Dense)                (None, 36, 512)      16896       ['layer_normalization_5[0][0]']
+
+ dropout_4 (Dropout)            (None, 36, 512)      0           ['dense_5[0][0]']
+
+ dense_6 (Dense)                (None, 36, 32)       16416       ['dropout_4[0][0]']
+
+ dropout_5 (Dropout)            (None, 36, 32)       0           ['dense_6[0][0]']
+
+ add_5 (Add)                    (None, 36, 32)       0           ['dropout_5[0][0]',
+                                                                  'add_4[0][0]']
+
+ layer_normalization_6 (LayerNo  (None, 36, 32)      64          ['add_5[0][0]']
+ rmalization)
+
+ flatten (Flatten)              (None, 1152)         0           ['layer_normalization_6[0][0]']
+
+ dropout_6 (Dropout)            (None, 1152)         0           ['flatten[0][0]']
+
+ dense_7 (Dense)                (None, 256)          295168      ['dropout_6[0][0]']
+
+ dropout_7 (Dropout)            (None, 256)          0           ['dense_7[0][0]']
+
+ dense_8 (Dense)                (None, 102)          26214       ['dropout_7[0][0]']
+
+==================================================================================================
+Total params: 533,254
+Trainable params: 533,254
+Non-trainable params: 0
+__________________________________________________________________________________________________
+None
+
+ ---- configuacion del VIT -----
+  > F= 1.0
+  > categorias originales = 102
+  > categorias de cada subred = 102
+  > num subredes (=maquinas) = 1
+  > batch_size= 32
+  > image size (cuadrada) = 60
+  > canales = 3
+  > dim embeddings= 32
+  > num transformer layers = 3
+  > num heads= 8
+  > size of transformer layers = [512, 32]
+  > size MLP layers  = [256]
+  > epocas: 50
+  > split= 0.2
+  > learning rate (adam) = 0.001
+  > num patches/lado = 6
+  > num total patches = 36
+  > patch size (lado) = 10
+
+Epoch 1/50
+229/229 [==============================] - 65s 230ms/step - loss: 3.8516 - accuracy: 0.2165 - val_loss: 2.6144 - val_accuracy: 0.4204
+Epoch 2/50
+229/229 [==============================] - 52s 226ms/step - loss: 3.3079 - accuracy: 0.2835 - val_loss: 2.3886 - val_accuracy: 0.4631
+Epoch 3/50
+229/229 [==============================] - 52s 227ms/step - loss: 3.0195 - accuracy: 0.3273 - val_loss: 2.0889 - val_accuracy: 0.5178
+Epoch 4/50
+229/229 [==============================] - 48s 210ms/step - loss: 2.7377 - accuracy: 0.3740 - val_loss: 1.9311 - val_accuracy: 0.5555
+Epoch 5/50
+229/229 [==============================] - 51s 221ms/step - loss: 2.5407 - accuracy: 0.4015 - val_loss: 1.9006 - val_accuracy: 0.5544
+Epoch 6/50
+229/229 [==============================] - 49s 216ms/step - loss: 2.4000 - accuracy: 0.4346 - val_loss: 1.7929 - val_accuracy: 0.5741
+Epoch 7/50
+229/229 [==============================] - 50s 220ms/step - loss: 2.2350 - accuracy: 0.4603 - val_loss: 1.7559 - val_accuracy: 0.5774
+Epoch 8/50
+229/229 [==============================] - 49s 213ms/step - loss: 2.1472 - accuracy: 0.4752 - val_loss: 1.6817 - val_accuracy: 0.5949
+Epoch 9/50
+229/229 [==============================] - 50s 218ms/step - loss: 2.0186 - accuracy: 0.5033 - val_loss: 1.6552 - val_accuracy: 0.6025
+Epoch 10/50
+229/229 [==============================] - 49s 215ms/step - loss: 1.9284 - accuracy: 0.5206 - val_loss: 1.6062 - val_accuracy: 0.6151
+Epoch 11/50
+229/229 [==============================] - 49s 213ms/step - loss: 1.8291 - accuracy: 0.5400 - val_loss: 1.5889 - val_accuracy: 0.6233
+Epoch 12/50
+229/229 [==============================] - 48s 210ms/step - loss: 1.7365 - accuracy: 0.5489 - val_loss: 1.6248 - val_accuracy: 0.6184
+Epoch 13/50
+229/229 [==============================] - 48s 211ms/step - loss: 1.6621 - accuracy: 0.5657 - val_loss: 1.5950 - val_accuracy: 0.6222
+Epoch 14/50
+229/229 [==============================] - 49s 212ms/step - loss: 1.5770 - accuracy: 0.5913 - val_loss: 1.6243 - val_accuracy: 0.6156
+Epoch 15/50
+229/229 [==============================] - 50s 218ms/step - loss: 1.5171 - accuracy: 0.6041 - val_loss: 1.5778 - val_accuracy: 0.6277
+Epoch 16/50
+229/229 [==============================] - 49s 215ms/step - loss: 1.4612 - accuracy: 0.6112 - val_loss: 1.5679 - val_accuracy: 0.6479
+Epoch 17/50
+229/229 [==============================] - 49s 213ms/step - loss: 1.3928 - accuracy: 0.6260 - val_loss: 1.6185 - val_accuracy: 0.6391
+Epoch 18/50
+229/229 [==============================] - 49s 216ms/step - loss: 1.3242 - accuracy: 0.6466 - val_loss: 1.5815 - val_accuracy: 0.6282
+Epoch 19/50
+229/229 [==============================] - 51s 224ms/step - loss: 1.2542 - accuracy: 0.6604 - val_loss: 1.6454 - val_accuracy: 0.6397
+Epoch 20/50
+229/229 [==============================] - 51s 222ms/step - loss: 1.2558 - accuracy: 0.6554 - val_loss: 1.6401 - val_accuracy: 0.6446
+Epoch 21/50
+229/229 [==============================] - 50s 220ms/step - loss: 1.1908 - accuracy: 0.6744 - val_loss: 1.6410 - val_accuracy: 0.6441
+Epoch 22/50
+229/229 [==============================] - 50s 219ms/step - loss: 1.1597 - accuracy: 0.6740 - val_loss: 1.6345 - val_accuracy: 0.6413
+Epoch 23/50
+229/229 [==============================] - 48s 211ms/step - loss: 1.0950 - accuracy: 0.6971 - val_loss: 1.5802 - val_accuracy: 0.6512
+Epoch 24/50
+229/229 [==============================] - 49s 215ms/step - loss: 1.0144 - accuracy: 0.7122 - val_loss: 1.6254 - val_accuracy: 0.6342
+Epoch 25/50
+229/229 [==============================] - 48s 212ms/step - loss: 1.0041 - accuracy: 0.7148 - val_loss: 1.6343 - val_accuracy: 0.6468
+Epoch 26/50
+229/229 [==============================] - 48s 211ms/step - loss: 0.9729 - accuracy: 0.7241 - val_loss: 1.6879 - val_accuracy: 0.6479
+Epoch 27/50
+229/229 [==============================] - 50s 216ms/step - loss: 0.9351 - accuracy: 0.7355 - val_loss: 1.6387 - val_accuracy: 0.6468
+Epoch 28/50
+229/229 [==============================] - 48s 211ms/step - loss: 0.9121 - accuracy: 0.7452 - val_loss: 1.7118 - val_accuracy: 0.6402
+Epoch 29/50
+229/229 [==============================] - 48s 211ms/step - loss: 0.8994 - accuracy: 0.7336 - val_loss: 1.6851 - val_accuracy: 0.6539
+Epoch 30/50
+229/229 [==============================] - 52s 226ms/step - loss: 0.8599 - accuracy: 0.7523 - val_loss: 1.6861 - val_accuracy: 0.6495
+Epoch 31/50
+229/229 [==============================] - 49s 215ms/step - loss: 0.8460 - accuracy: 0.7538 - val_loss: 1.7382 - val_accuracy: 0.6517
+Epoch 32/50
+229/229 [==============================] - 49s 213ms/step - loss: 0.8272 - accuracy: 0.7599 - val_loss: 1.7552 - val_accuracy: 0.6386
+Epoch 33/50
+229/229 [==============================] - 49s 215ms/step - loss: 0.7717 - accuracy: 0.7716 - val_loss: 1.8231 - val_accuracy: 0.6381
+Epoch 34/50
+229/229 [==============================] - 49s 215ms/step - loss: 0.7746 - accuracy: 0.7707 - val_loss: 1.7131 - val_accuracy: 0.6419
+Epoch 35/50
+229/229 [==============================] - 49s 212ms/step - loss: 0.7687 - accuracy: 0.7735 - val_loss: 1.7402 - val_accuracy: 0.6523
+Epoch 36/50
+229/229 [==============================] - 50s 218ms/step - loss: 0.7120 - accuracy: 0.7882 - val_loss: 1.7992 - val_accuracy: 0.6473
+Epoch 37/50
+229/229 [==============================] - 54s 234ms/step - loss: 0.7278 - accuracy: 0.7846 - val_loss: 1.8205 - val_accuracy: 0.6512
+Epoch 38/50
+229/229 [==============================] - 58s 253ms/step - loss: 0.7156 - accuracy: 0.7863 - val_loss: 1.8505 - val_accuracy: 0.6315
+Epoch 39/50
+229/229 [==============================] - 62s 269ms/step - loss: 0.6883 - accuracy: 0.7974 - val_loss: 1.8156 - val_accuracy: 0.6446
+Epoch 40/50
+229/229 [==============================] - 68s 296ms/step - loss: 0.6815 - accuracy: 0.8022 - val_loss: 1.7780 - val_accuracy: 0.6386
+Epoch 41/50
+229/229 [==============================] - 69s 302ms/step - loss: 0.6595 - accuracy: 0.8068 - val_loss: 1.8103 - val_accuracy: 0.6523
+Epoch 42/50
+229/229 [==============================] - 70s 305ms/step - loss: 0.6526 - accuracy: 0.8051 - val_loss: 1.7891 - val_accuracy: 0.6408
+Epoch 43/50
+229/229 [==============================] - 64s 279ms/step - loss: 0.6069 - accuracy: 0.8179 - val_loss: 1.7827 - val_accuracy: 0.6495
+Epoch 44/50
+229/229 [==============================] - 65s 286ms/step - loss: 0.6138 - accuracy: 0.8165 - val_loss: 1.8415 - val_accuracy: 0.6430
+Epoch 45/50
+229/229 [==============================] - 54s 238ms/step - loss: 0.5685 - accuracy: 0.8271 - val_loss: 1.8222 - val_accuracy: 0.6468
+Epoch 46/50
+229/229 [==============================] - 50s 220ms/step - loss: 0.6075 - accuracy: 0.8137 - val_loss: 1.8584 - val_accuracy: 0.6424
+Epoch 47/50
+229/229 [==============================] - 51s 221ms/step - loss: 0.5854 - accuracy: 0.8200 - val_loss: 1.8944 - val_accuracy: 0.6452
+Epoch 48/50
+229/229 [==============================] - 55s 240ms/step - loss: 0.5575 - accuracy: 0.8342 - val_loss: 1.8590 - val_accuracy: 0.6430
+Epoch 49/50
+229/229 [==============================] - 53s 232ms/step - loss: 0.5515 - accuracy: 0.8334 - val_loss: 1.8787 - val_accuracy: 0.6446
+Epoch 50/50
+229/229 [==============================] - 49s 215ms/step - loss: 0.5449 - accuracy: 0.8361 - val_loss: 1.9699 - val_accuracy: 0.6534
