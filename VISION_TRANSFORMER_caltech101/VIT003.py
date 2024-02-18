@@ -1,7 +1,20 @@
 
 # codigo base tomado de https://github.com/tonywu71/vision-transformer
 # Tensorflow implementation of Image Classification with Vision Transformer
-# VIT architecture is following the one from An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale, Dosovitskiy, 2021. 
+# VIT architecture is following the one from An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale, Dosovitskiy, 2021.
+
+# dependencias:
+# para desinstalar algo (ejemplo): py -m pip uninstall tensorflow
+# para desinstalar algo (ejemplo): py -m pip uninstall tensorflow=2.12  
+
+# tensorflow 2.12   (ya trae numpy 1.25)
+# numpy 1.25
+# tensorflow-datasets
+# tfds-nightly
+# seaborn
+# matplotlib 3.8.3
+
+
 import argparse
 from datetime import datetime
 
@@ -118,10 +131,10 @@ def adaptImages(x_train,samples,data_type,a, h2,w2, channels2):
         #print(f" item {i} a shape: {a[i].shape}")
         # las mostramos
         if (i<0):
-            img_orig = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # las magenes llegan en BGR y para hacer show necesitamos RGB
+            img_orig = img #cv2.cvtColor(img, cv2.COLOR_BGR2RGB) # las magenes llegan en BGR y para hacer show necesitamos RGB
             cv2.imshow('orig', img_orig)
             print("img2.shape=", img2.shape)
-            img3 = cv2.cvtColor(img2, cv2.COLOR_BGR2RGB) # las magenes llegan en BGR y para hacer show necesitamos RGB
+            img3 = img2 #cv2.cvtColor(img2, cv2.COLOR_BGR2RGB) # las magenes llegan en BGR y para hacer show necesitamos RGB
             cv2.imshow('Image', img3)
             #img3 = cv2.cvtColor(img2, cv2.COLOR_RGB2HSV)
             #cv2.imshow('Image', img3)
@@ -403,9 +416,9 @@ def loadDataset(tipo, ds_name, directorio):
     
     else : # tipo local
         print(" dataset local")
-        resolution=64 # resolucion igual para todos
-        x_train=np.zeros(0,dtype=np.uint8)
-        y_train=np.zeros(0,dtype=np.float32)
+        #resolution=1000 # resolucion igual para todos pero en numero total de pixeles (al cuadrado)
+        x_train=[] #np.zeros(0,dtype=np.uint8)
+        y_train=[]#np.zeros(0,dtype=np.float32)
         carpetas = os.listdir(directorio)
         idx=0
         n_classes=0
@@ -419,98 +432,52 @@ def loadDataset(tipo, ds_name, directorio):
                 print("loading ", img_name,"     cat=",categoria)
                 name=directorio+"/"+subdir+"/"+img_name
                 img=cv2.imread(name)
+                h_orig,w_orig, channels_orig=img.shape
+               
+                #print("shape orig=",img.shape)
                 #img=cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                img=cv2.resize(img,(resolution,resolution)) # reduce a resolicion fija para todas las imagenes
+                #factor=math.sqrt((resolution*resolution)/(h_orig*w_orig))
+                #h_fin=int(h_orig*factor)
+                #w_fin=int(w_orig*factor)
+                #img=cv2.resize(img,(h_fin,w_fin)) # reduce a resolicion fija para todas las imagenes
 
                 #img=np.float32(img)# ahora ya es un decimal
                 #img=img/255.0 # ahora ya entre 0 y 1
-                x_train=np.append(x_train,img)
-                y_train=np.append(y_train,categoria)
+
+                #x_train=np.append(x_train,img)
+                #y_train=np.append(y_train,categoria)
+
+                x_train.append(img)
+                y_train.append(categoria)
+
+                
                 #cv2.imshow("orig", img)
                 #cv2.waitKey(0)
-        x_train.shape=(idx,resolution,resolution,3)
+        x_train=np.array(x_train)
+        y_train=np.array(y_train)
+        print("x_train.shape", x_train.shape)
+        #x_train.shape=(idx,resolution,resolution,3)
+
         print("", end="\n")
         return n_classes, x_train, y_train
         
 ##################################################################################
 def main():
 
+    # ESTA PARTE HAY QUE TOCARLA PARA CARGAR EL DATASET DESEADO, YA SEA ESTANDAR O LOCAL
+    #==================================================================================
     ds_name="caltech101" #9k images  variable sizes around 200x300 , 101 cat - 130 MB. train OK <---buen candidato aunque pocas imagenes pero grandes
     #ds_name="omniglot"
     #ds_name="mnist"
-    #ds_dir=ds_name #directorio
     #ds_name="disney"
+    
     # si quieres cargar imagenes de dataset standar de tensorflow para hacer tu dataset , descomenta esto:
     n_classes,x_train,y_train = loadDataset("standar", ds_name, "")
     
     # si quieres cargar imagenes locales para hacer tu dataset , descomenta esto:
     #n_classes,x_train,y_train = loadDataset("local", ds_name, "./disney/")
-    
-    """
-    ds_name="caltech101" #9k images  variable sizes around 200x300 , 101 cat - 130 MB. train OK <---buen candidato aunque pocas imagenes pero grandes
-    #ds_name="omniglot"
-    #ds_name="mnist"
-    ds_dir=ds_name #directorio
-    lote_size=1 #00
-
-    
-    ds_train,  info= tfds.load(ds_name,
-                     data_dir=ds_dir, #directorio de descarga
-                     #en el campo splits del datasetinfo vemos los splits que contiene y aqui cogemos uno
-                     # si usamos split, ya no retorna info y hay que sacarla
-                     #split=['train','test'],
-                     #split=["train[:10%]","test[:10%]"],
-                     #split=["train[:10%]","train[:5%]"],
-                     #split=["train","test"], #para caltech101
-                     split="all", #para caltech101. es train + test +...
-                     #split="train[:99%]", #imagenet
-                     #split="train[:10%]", #prueba inicial
-                     #supervised: retorna una estructura con dos tuplas input, label according to builder.info.supervised_keys
-                     # si false, el dataset "tendra un diccionario con todas las features"
-                     as_supervised=True,
-                     shuffle_files=False, #True, # desordenar. lo quito para que funcione siempre igual y no dependa de ejecucion
-                     #  if "batch_size" isset, add a batch dimension to examples
-                     #batch_size=lote_size, #por ejemplo en lugar de (28,28,3) sera (10,28,28,3)
-                     with_info=True # descarga info (tfds.core.DatasetInfo)
-                     )
-
-
-    # Extract informative features
-    print("informative features")
-    print("--------------------")
-    class_names = info.features["label"].names
-    n_classes = info.features["label"].num_classes
-    print("  class names:", class_names) 
-    print("  num clases:", n_classes)
-    print("")
-
-    #tamanos de datasets
-    print("datasets sizes. IF batch_size is used THEN this is the number of batches")
-    print("-------------------------------------------------------------------------")
-    print("  Train set size: ", len(ds_train), " batches of ",lote_size, " elements") # Train set size
-    print()
-
-    #contenido dataset
-    print("ds_train contents (", ds_name,")")
-    print("--------------------------------")
-    print(ds_train)
-    print()
-    print("dataset to numpy conversion (", ds_name,")")
-    print("------------------------------------------")
-    ds_train_npy=tfds.as_numpy(ds_train)
-
-    print("  convirtiendo DS en arrays numpy...(", ds_name,")")
-    x_train = np.array(list(map(lambda x: x[0], ds_train_npy)))
-    y_train = np.array(list(map(lambda x: x[1], ds_train_npy)))
-
-
-    print("  conversion OK")
-    print("   x_train numpy shape:",x_train.shape)
-    print("   y_train numpy shape:",y_train.shape)
-    print("")
-
-    print()
-    """
+    #==================================================================================
+   
     #deconstruccion
     #------------------
     print("deconstruccion")
@@ -530,18 +497,21 @@ def main():
 
 
 
-    print ("Filtering data for deconstruction training... ")
-    print ("-----------------------------------------------")
-    print ("  number of examples:")
-    #este filtro lo podriamos modificar segun el parametro G, pero
-    #de momento vamos a suponer que entrenamos la primera subred
-    # y vamos a suponer que todas dan el mismo accuracy porque se enfrentan
-    #a problema similar
-    train_filter = np.where((y_train <n))
-    
-    #train_filter = np.where((y_train >=n*G) & (y_train<(n+1)*G)) # para poder usar G
+    print ("Filtering input data for training a subnet... ")
+    print ("----------------------------------------------")
+   
+    cat_min=int(n*G)
+    cat_max=int(n*G+n)
+    print (" subred ", G, " cat min=",cat_min,"  cat_max=", cat_max)
+    print("")
+    train_filter = np.where((y_train >=cat_min) & (y_train<cat_max)) # para poder usar G
 
     x_train, y_train = x_train[train_filter], y_train[train_filter]
+
+    #falta alterar y_train para poder entrenar y lo hacemos asi:
+    y_train=y_train-cat_min
+    
+    print ("  number of examples after filtering:")
     print('   x_train: ' + str(x_train.shape))
     print('   y_train: ' + str(y_train.shape))
     print("")
@@ -562,9 +532,10 @@ def main():
     if (ds_name=="mnist"):
         w2=28
         h2=28 
-    if (ds_name=="disney"):
-        w2=60
-        h2=260
+    if (ds_name=="disney"): 
+        w2=36
+        h2=36
+        
     print ("ds_name=", ds_name, "-->",  "h2=", h2, "w2=", w2)
     print("")
     channels=x_train[0].shape[2] # todos los elementos tienen mismo num canales
@@ -617,9 +588,9 @@ def main():
 
 
     
-    # --- CONFIGURACION  ---
-    
-    batch_size= 32# 32#64
+    # --- CONFIGURACION : MANIPULAR PARA ALTERAR EL TRANSFORMER Y SUS PARAMETROS DE TRAINING ---
+    #============================================================================================
+    batch_size= 32 #8 #32# 32#64 para disney, usar 8 porque hay pocas imagenes. para caltech usar 32
     input_shape=[h2, w2, channels2] # alto final, ancho final, canales.
     image_size=w2 # lado del tamaño final de las imagenes
     embeddings_dim=int(32/F) # bytes de cada vector
@@ -630,22 +601,13 @@ def main():
     num_epocas=50 #10
     my_split=0.2 # un 20% del conjunto de train lo usamos para validar
     lr=1e-3 #1e-2 #1e-4 # learning rate  (default de keras es 0.001 es decir 1e-3)
-    num_patches_lado=6 # los patches que caben por lado
+    num_patches_lado=6 #6 # los patches que caben por lado
     num_patches=num_patches_lado*num_patches_lado # numero total de patches
     patch_size=w2//num_patches_lado # lado de un patch
     if (patch_size!=w2/num_patches_lado):
         print(" imagen no puede dividirse en numero entero de patches")
         exit()
-
-    
-
-
-    
-    # --- Prepare the data ---
-    #ds_train, ds_test = load_mnist_dataset(batch_size=batch_size) #config["batch_size"])
-
-    
-    
+    #============================================================================================
    
         
     # --- Get model ---
@@ -664,26 +626,16 @@ def main():
                                            )
 
     
-    """
-    vit_classifier = create_vit_classifier(input_shape=config["input_shape"],
-                                           num_classes=config["num_classes"],
-                                           image_size=config["image_size"],
-                                           patch_size=config["patch_size"],
-                                           num_patches=config["num_patches"],
-                                           projection_dim=config["projection_dim"],
-                                           dropout=config["dropout"],
-                                           n_transformer_layers=config["n_transformer_layers"],
-                                           num_heads=config["num_heads"],
-                                           transformer_units=config["transformer_units"],
-                                           mlp_head_units=config["mlp_head_units"])
-
-    """
+   
     print(vit_classifier.summary())
     print("")
     print (" ---- configuacion del VIT -----")
+    print ("  > dataset =",ds_name)
     print ("  > F=", F)
+    print ("  > subred G=", G)
     print ("  > categorias originales =", n_classes)
     print ("  > categorias de cada subred =",n)
+    print ("  > subred ", G, " categoria min=",cat_min,"  categoria max=", cat_max) 
     print ("  > num subredes (=maquinas) =",machines)
     print ("  > batch_size=", batch_size)
     print ("  > image size (cuadrada) =", w2)
@@ -710,15 +662,8 @@ def main():
 
     titulo="learning_curve_VIT_"+ds_name
     plt.title(titulo)
-    #xticks = np.arange(0, epocas, max(1,epocas/10))
-    #tics=max(1,epocas/10)
-    #plt.axes.xaxis.set_major_locator(MaxNLocator(ticks))
-    #xaxis.set_major_locator(ticker.MaxNLocator(4))
-    #plt.plot(trained_model.history['loss'], 'r--') en mlp no voy a pintar la loss
-    #plt.axes([1,2,3,4,5,6,7,8,9,10,11,12])
     plt.plot(history.history['accuracy'], 'b-')
     plt.plot(history.history['val_accuracy'], 'g-')
-    #plt.legend(['Training Loss', 'Training Accuracy'])
     plt.legend(['train', 'val'], loc='upper left')
     plt.xlabel('Epoch')
     plt.ylabel('Percent')
