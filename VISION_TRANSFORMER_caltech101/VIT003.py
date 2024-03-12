@@ -4,15 +4,16 @@
 # VIT architecture is following the one from An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale, Dosovitskiy, 2021.
 
 # dependencias:
-# para desinstalar algo (ejemplo): py -m pip uninstall tensorflow
-# para desinstalar algo (ejemplo): py -m pip uninstall tensorflow=2.12  
+# para instalar algo (ejemplo): py -m pip install tensorflow==2.12
+# para desinstalar algo (ejemplo): py -m pip uninstall tensorflow  
 
 # tensorflow 2.12   (ya trae numpy 1.25)
 # numpy 1.25
 # tensorflow-datasets
 # tfds-nightly
-# seaborn
+# seaborn NO HACE FALTA
 # matplotlib 3.8.3
+# opencv 4.6.0 (al menos, aunque la 4.9 tambien vale)
 
 
 import argparse
@@ -23,9 +24,9 @@ from tensorflow import keras
 from tensorflow.keras import layers
 
 from dataloader.dataloader import load_mnist_dataset
-from model.hparams import read_config
+#from model.hparams import read_config
 #from model.vision_transformer import create_vit_classifier
-from plot.learning_curve import plot_learning_curve
+#from plot.learning_curve import plot_learning_curve
 from typing import List
 
 
